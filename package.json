@@ -1,0 +1,31 @@
+{
+  "name": "bookshelf-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./src/Server.js",
+  "scripts": {
+    "start-dev": "nodemon Server.js",
+    "lint": "eslint ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yaelahtom/bookshelf-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yaelahtom/bookshelf-api/issues"
+  },
+  "homepage": "https://github.com/yaelahtom/bookshelf-api#readme",
+  "dependencies": {
+    "@hapi/hapi": "^21.0.0",
+    "nanoid": "^4.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.27.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.26.0",
+    "nodemon": "^2.0.20"
+  }
+}
