@@ -1,1 +1,3 @@
-console.log('hai');
+const Hapi = require('@hapi/hapi');
+
+console.log(Hapi);
