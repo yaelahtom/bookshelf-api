@@ -1,14 +1,19 @@
-import routes from './Routes';
-
-const Hapi = require('@hapi/hapi');
+/* eslint-disable import/extensions */
+import Hapi from '@hapi/hapi';
+import Routes from './Routes.js';
 
 const init = async () => {
   const server = Hapi.server({
-    port: 3001,
+    port: 5000,
     host: 'localhost',
+    routes: {
+      cors: {
+        origin: ['*'],
+      },
+    },
   });
 
-  server.route(routes);
+  server.route(Routes);
 
   await server.start();
   console.log('server running on %s', server.info.uri);
