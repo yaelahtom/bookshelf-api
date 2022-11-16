@@ -35,7 +35,7 @@ const addBookHandler = (req, h) => {
   }
 
   const id = nanoid(16);
-  const finished = pageCount === readPage;
+  const finished = (pageCount === readPage);
   const insertedAt = new Date().toISOString();
   const updatedAt = insertedAt;
 
@@ -81,24 +81,28 @@ const addBookHandler = (req, h) => {
 const getAllBooksHandler = (req, h) => {
   const { name, reading, finished } = req.query;
 
-  if (books.length > 0) {
-    // inisialisasi filtered book untuk di map di response
-    let filteredBooks = books;
-
-    if (name) {
-      filteredBooks = filteredBooks.filter((book) => book.name.toLowerCase()
-        .includes(name.toLowerCase()));
-    }
-    if (reading) {
-      filteredBooks = filteredBooks.filter((book) => book.reading === Number(reading));
-    }
-    if (finished) {
-      filteredBooks = filteredBooks.filter((book) => book.finished === Number(finished));
-    }
+  if (name) {
     const response = h.response({
       status: 'success',
       data: {
-        books: filteredBooks.map((book) => ({
+        books: books.filter((book) => book.name.toLowerCase().includes(name.toLowerCase()))
+          .map((book) => ({
+            id: book.id,
+            name: book.name,
+            publisher: book.publisher,
+          })),
+      },
+    });
+    return response;
+  }
+
+  if (reading) {
+    const readingBooks = books.filter((book) => book.reading === true);
+
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: readingBooks.map((book) => ({
           id: book.id,
           name: book.name,
           publisher: book.publisher,
@@ -107,10 +111,49 @@ const getAllBooksHandler = (req, h) => {
     });
     return response;
   }
+
+  // eslint-disable-next-line eqeqeq
+  if (finished == 0) {
+    const finishedBooks = books.filter((book) => book.finished === false);
+
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: finishedBooks.map((book) => ({
+          id: book.id,
+          name: book.name,
+          publisher: book.publisher,
+        })),
+      },
+    });
+    return response;
+  }
+
+  if (finished) {
+    const finishedBooks = books.filter((book) => book.finished === true);
+
+    const response = h.response({
+      status: 'success',
+      data: {
+        books: finishedBooks.map((book) => ({
+          id: book.id,
+          name: book.name,
+          publisher: book.publisher,
+        })),
+      },
+    });
+    return response;
+  }
+
+  // menampilkan semua buku tanpa filter
   const response = h.response({
     status: 'success',
     data: {
-      books: [],
+      books: books.map((book) => ({
+        id: book.id,
+        name: book.name,
+        publisher: book.publisher,
+      })),
     },
   });
   return response;
